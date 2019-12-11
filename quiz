@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+typedef struct                              //structure for the quiz//
+{
+    char question [40];
+    char option [20];
+    char answer [3] ;
+
+}quiz_t;
+int main()
+{
+    int total_quizs ;
+    char quizzz[5];
+
+    FILE *ptr;
+    if ((ptr = fopen("quiz1.txt","w")) == NULL )
+        printf("File does not exist");
+
+    printf("Enter no of quiz questions : ");
+    scanf("%d",&total_quizs);
+
+    printf("\n\n\n");
+
+    itoa(total_quizs,quizzz,10);
+    fputs(quizzz,ptr);
+    quiz_t quiz;
+    fputs("\n",ptr);
+
+    for ( int i = 0 ; i < total_quizs ; i++)
+    {
+        printf("\n\nEnter the %d question of quiz :  ",i+1);
+        fflush(stdin);
+        gets(quiz.question);
+        fputs(quiz.question,ptr);
+        fputs("\n",ptr);
+
+        for ( int o = 0 ; o < 4 ; o++ )
+        {
+            printf("\nEnter the %d option for the question %d : ",o+1,i+1);
+            fflush(stdin);
+            gets(quiz.option);
+            fputs(quiz.option,ptr);
+            fputs("\n",ptr);
+        }
+
+        printf("\nEnter the correct option number of question %d : ",i+1);
+        fflush(stdin);
+        gets(quiz.answer);
+        fputs(quiz.answer,ptr);
+        fputs("\n",ptr);
+    }
+    fclose(ptr);
+
+                    //Attempting//
+    FILE *prt ;
+    char t_quize[5];
+    char option[5];
+    int count = 0;
+    quiz_t attempt;
+    if ((prt = fopen("quiz1.txt","r")) == NULL)
+        printf("Failed to open the File");
+
+    fgets(t_quize,5,prt);
+
+    for (int i = 0 ; i < total_quizs ; i++ )
+    {
+        fgets(attempt.question,40,prt);
+        printf("%s\n",attempt.question);
+
+        for (int o=0 ; o < 4 ; o++ )
+        {
+            fgets(attempt.option,20,prt);
+            printf("%d)%s",o+1,attempt.option);
+        }
+        printf("\nEnter the correct option number : ");
+        gets(option);                                       /* Taking option from the student*/
+        fgets(attempt.answer,5,prt);
+        printf("%s",attempt.option);
+        strcat(option,"\n");
+
+
+        if (!strcmp(option,attempt.answer))                 /*Checking if the user option is correct or wrong*/
+        {
+            printf("Correct\n\n\n");
+            count += 1 ;
+        }
+        else
+            printf("Wrong\n\n\n");
+
+
+
+    }
+    printf("The correct answers %d",count);
+
+
+}
